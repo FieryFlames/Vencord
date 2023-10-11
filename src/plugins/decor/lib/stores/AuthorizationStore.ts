@@ -6,7 +6,7 @@
 
 import { proxyLazy } from "@utils/lazy";
 
-export const zustend = {
+export const zustand = {
     create: {} as typeof import("zustand")["create"],
 };
 
@@ -15,7 +15,7 @@ interface BearState {
     increase: (by: number) => void;
 }
 
-export const useBearStore = proxyLazy(() => zustend.create<BearState>(
+export const useBearStore = proxyLazy(() => zustand.create<BearState>(
     set => ({
         bears: 0,
         increase: by => set(state => ({ bears: state.bears + by })),
