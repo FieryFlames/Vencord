@@ -4,16 +4,37 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { zustandCreate } from "plugins/decor";
+import { useCallback, useEffect, useState } from "@webpack/common";
+
+import { Mutex } from "../mutex";
 
 interface BearState {
     bears: number;
-    increase: (by: number) => void;
 }
 
-export const useBearStore = zustandCreate<BearState>(
-    set => ({
-        bears: 0,
-        increase: by => set(state => ({ bears: state.bears + by })),
-    })
-);
+// export const useBearStore = zustand.create<BearState>(
+//     set => ({
+//         bears: 0,
+//         increase: by => set(state => ({ bears: state.bears + by })),
+//     }),
+// );
+
+
+let previousState: BearState | undefined;
+const bearStoreMutex = new Mutex();
+
+export const useBearStore = () => {
+    const [state, setState] = useState(previousState);
+    useEffect(() => {
+        bearStoreMutex.with(async () => (previousState = state, void 0));
+    }, [state]);
+
+    const increase = useCallback((by: number) => {
+        setState(state => ({ bears: (state?.bears ?? 0) + by }));
+    }, [state]);
+
+    return {
+        bears: state?.bears ?? 0,
+        increase,
+    };
+};

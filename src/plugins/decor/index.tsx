@@ -29,7 +29,6 @@ let users: Map<string, string>;
 const fetchUsers = async (cache: RequestCache = "default") => users = new Map(Object.entries(await fetch(BASE_URL + "/api/users", { cache }).then(c => c.json())));
 
 let CustomizationSection;
-export let zustandCreate: typeof import("zustand").default;
 
 export default definePlugin({
     name: "Decor",
@@ -67,26 +66,11 @@ export default definePlugin({
                 match: /function (\i)\(\i\){var \i,\i=\i\.title/,
                 replace: "$self.CustomizationSection=$1;$&"
             }
-        },
-        {
-            find: "will be removed in v4",
-            replacement: {
-                match: /function (\i)\(\i\){var \i="function"/,
-                replace: "$self.zustandCreate=$1;$&"
-            }
         }
     ],
 
     flux: {
         CONNECTION_OPEN: initAuth
-    },
-
-    set zustandCreate(e: any) {
-        zustandCreate = e;
-    },
-
-    get zustandCreate() {
-        return zustandCreate;
     },
 
     set CustomizationSection(e: any) {
