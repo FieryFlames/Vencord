@@ -4,16 +4,20 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { zustandCreate } from "plugins/decor";
+import { proxyLazy } from "@utils/lazy";
+
+export const zustend = {
+    create: {} as typeof import("zustand")["create"],
+};
 
 interface BearState {
     bears: number;
     increase: (by: number) => void;
 }
 
-export const useBearStore = zustandCreate<BearState>(
+export const useBearStore = proxyLazy(() => zustend.create<BearState>(
     set => ({
         bears: 0,
         increase: by => set(state => ({ bears: state.bears + by })),
     })
-);
+));

@@ -23,7 +23,7 @@ import { Button } from "@webpack/common";
 
 import { initAuth } from "./lib/auth";
 import { BASE_URL, CDN_URL, SKU_ID } from "./lib/constants";
-import { useBearStore } from "./lib/stores/AuthorizationStore";
+import { useBearStore, zustend } from "./lib/stores/AuthorizationStore";
 
 let users: Map<string, string>;
 const fetchUsers = async (cache: RequestCache = "default") => users = new Map(Object.entries(await fetch(BASE_URL + "/api/users", { cache }).then(c => c.json())));
@@ -32,6 +32,8 @@ let CustomizationSection;
 export let zustandCreate: typeof import("zustand").default;
 
 export default definePlugin({
+    zustend,
+
     name: "Decor",
     description: "Custom avatar decorations",
     authors: [Devs.FieryFlames],
@@ -72,21 +74,13 @@ export default definePlugin({
             find: "will be removed in v4",
             replacement: {
                 match: /function (\i)\(\i\){var \i="function"/,
-                replace: "$self.zustandCreate=$1;$&"
+                replace: "$self.zustend.create=$1;$&"
             }
         }
     ],
 
     flux: {
         CONNECTION_OPEN: initAuth
-    },
-
-    set zustandCreate(e: any) {
-        zustandCreate = e;
-    },
-
-    get zustandCreate() {
-        return zustandCreate;
     },
 
     set CustomizationSection(e: any) {
