@@ -151,7 +151,7 @@ export default function ChangeDecorationModal(props: any) {
                             }
                         </div>
                         {hasSubtitle &&
-                            <Forms.FormText type="description">
+                            <Forms.FormText type="description" className={Margins.bottom8}>
                                 {section.subtitle}
                             </Forms.FormText>
                         }
