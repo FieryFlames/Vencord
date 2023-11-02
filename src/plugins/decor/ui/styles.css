@@ -8,6 +8,7 @@
     display: flex;
     border-radius: 5px 5px 0 0;
     padding: 0 16px;
+    gap: 4px
 }
 
 .vc-decor-change-decoration-modal-preview {
@@ -54,9 +55,9 @@
 .vc-decor-sectioned-grid-list-container {
     display: flex;
     flex-direction: column;
-    overflow: scroll;
-    max-height: 500px;
-    width: 354px;
+    overflow: hidden scroll;
+    max-height: 512px;
+    width: 352px; /* ((80 + 8) * desired columns) - 8 (scroller) */
     gap: 12px;
 }
 
